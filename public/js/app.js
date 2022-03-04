@@ -21591,7 +21591,8 @@ __webpack_require__.r(__webpack_exports__);
 
     var _usePosts = (0,_composables_posts__WEBPACK_IMPORTED_MODULE_2__["default"])(),
         storePost = _usePosts.storePost,
-        validationErrors = _usePosts.validationErrors;
+        validationErrors = _usePosts.validationErrors,
+        isLoading = _usePosts.isLoading;
 
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
       getCategories();
@@ -21600,7 +21601,8 @@ __webpack_require__.r(__webpack_exports__);
       categories: categories,
       post: post,
       storePost: storePost,
-      validationErrors: validationErrors
+      validationErrors: validationErrors,
+      isLoading: isLoading
     };
   }
 });
@@ -21747,15 +21749,19 @@ var _hoisted_9 = ["value"];
 var _hoisted_10 = {
   "class": "text-red-600 mt-1"
 };
-
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_11 = {
   "class": "mt-4"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-  "class": "px-3 py-2 bg-blue-600 text-white rounded"
-}, "Save")], -1
-/* HOISTED */
-);
-
+};
+var _hoisted_12 = ["disabled"];
+var _hoisted_13 = {
+  "class": "inline-block animate-spin w-4 h-4 mr-2 border-t-2 border-t-white border-r-2 border-r-white border-b-2 border-b-white border-l-2 border-l-blue-600 rounded-full"
+};
+var _hoisted_14 = {
+  key: 0
+};
+var _hoisted_15 = {
+  key: 1
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$setup$validationErr, _$setup$validationErr2, _$setup$validationErr3;
 
@@ -21814,7 +21820,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     );
   }), 256
   /* UNKEYED_FRAGMENT */
-  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Buttons "), _hoisted_11], 32
+  ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    disabled: $setup.isLoading,
+    "class": "inline-flex items-center px-3 py-2 bg-blue-600 text-white rounded disabled:opacity-75 disabled:cursor-not-allowed"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.isLoading]]), $setup.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_14, "Processing...")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_15, "Save"))], 8
+  /* PROPS */
+  , _hoisted_12)])], 32
   /* HYDRATE_EVENTS */
   );
 }
@@ -22279,6 +22292,7 @@ function usePosts() {
   var posts = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)({});
   var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.useRouter)();
   var validationErrors = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)({});
+  var isLoading = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
 
   var getPosts = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -22318,6 +22332,16 @@ function usePosts() {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
+              if (!isLoading.value) {
+                _context2.next = 2;
+                break;
+              }
+
+              return _context2.abrupt("return");
+
+            case 2:
+              isLoading.value = true;
+              validationErrors.value = {};
               axios.post('/api/posts', post).then(function (response) {
                 router.push({
                   name: 'posts.index'
@@ -22328,9 +22352,11 @@ function usePosts() {
                 if ((_error$response = error.response) !== null && _error$response !== void 0 && _error$response.data) {
                   validationErrors.value = error.response.data.errors;
                 }
+              })["finally"](function () {
+                return isLoading.value = false;
               });
 
-            case 1:
+            case 5:
             case "end":
               return _context2.stop();
           }
@@ -22347,7 +22373,8 @@ function usePosts() {
     posts: posts,
     getPosts: getPosts,
     storePost: storePost,
-    validationErrors: validationErrors
+    validationErrors: validationErrors,
+    isLoading: isLoading
   };
 }
 
