@@ -76,13 +76,13 @@ import usePosts from "../../composables/posts";
 export default {
     setup() {
         const { categories, getCategories } = useCategories()
-        const { post, getPost, validationErrors, isLoading } = usePosts()
+        const { post, getPost, updatePost, validationErrors, isLoading } = usePosts()
         const route = useRoute()
         onMounted(() => {
             getPost(route.params.id)
             getCategories()
         })
-        return { categories, post, validationErrors, isLoading }
+        return { categories, post, validationErrors, isLoading, updatePost }
     }
 }
 </script>
