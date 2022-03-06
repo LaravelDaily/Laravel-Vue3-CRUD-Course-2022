@@ -23,6 +23,7 @@
         "laravel-vue-pagination": "^3.0.0",
         "vue": "^3.2.31",
         "vue-loader": "^17.0.0",
-        "vue-router": "^4.0.13"
+        "vue-router": "^4.0.13",
+        "vue-sweetalert2": "^5.0.2"
     }
 }
