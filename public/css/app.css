@@ -1165,6 +1165,9 @@ select {
 .opacity-100 {
   opacity: 1;
 }
+.opacity-25 {
+  opacity: 0.25;
+}
 .shadow-sm {
   --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
@@ -1601,10 +1604,6 @@ body.swal2-toast-shown .swal2-container.swal2-bottom-end,body.swal2-toast-shown 
 
   .sm\:h-20 {
     height: 5rem;
-  }
-
-  .sm\:w-1\/4 {
-    width: 25%;
   }
 
   .sm\:max-w-md {
