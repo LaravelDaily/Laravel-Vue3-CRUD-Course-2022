@@ -22762,6 +22762,21 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.withCredentials = true;
+window.axios.interceptors.response.use(function (response) {
+  return response;
+}, function (error) {
+  var _error$response, _error$response2;
+
+  if (((_error$response = error.response) === null || _error$response === void 0 ? void 0 : _error$response.status) === 401 || ((_error$response2 = error.response) === null || _error$response2 === void 0 ? void 0 : _error$response2.status) === 419) {
+    if (JSON.parse(localStorage.getItem('loggedIn'))) {
+      localStorage.setItem('loggedIn', false);
+      location.assign('/login');
+    }
+  }
+
+  return Promise.reject(error);
+});
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -23227,7 +23242,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+function auth(to, from, next) {
+  if (JSON.parse(localStorage.getItem('loggedIn'))) {
+    next();
+  }
+
+  next('/login');
+}
+
 var routes = [{
+  path: '/',
+  redirect: {
+    name: 'login'
+  },
   component: _layouts_Guest__WEBPACK_IMPORTED_MODULE_1__["default"],
   children: [{
     path: '/login',
@@ -23236,6 +23264,7 @@ var routes = [{
   }]
 }, {
   component: _layouts_Authenticated__WEBPACK_IMPORTED_MODULE_0__["default"],
+  beforeEnter: auth,
   children: [{
     path: '/posts',
     name: 'posts.index',
