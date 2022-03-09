@@ -48,6 +48,7 @@ class PostController extends Controller
 
     public function store(StorePostRequest $request)
     {
+        $this->authorize('posts.create');
         if ($request->hasFile('thumbnail')) {
             $filename = $request->file('thumbnail')->getClientOriginalName();
             info($filename);
@@ -59,17 +60,20 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
+        $this->authorize('posts.update');
         return new PostResource($post);
     }
 
     public function update(Post $post, StorePostRequest $request)
     {
+        $this->authorize('posts.update');
         $post->update($request->validated());
 
         return new PostResource($post);
     }
 
     public function destroy(Post $post) {
+        $this->authorize('posts.delete');
         $post->delete();
 
         return response()->noContent();
