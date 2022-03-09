@@ -21,6 +21,17 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+
+    Route::get('abilities', function(Request $request) {
+        return $request->user()->roles()->with('permissions')
+            ->get()
+            ->pluck('permissions')
+            ->flatten()
+            ->pluck('name')
+            ->unique()
+            ->values()
+            ->toArray();
+    });
 });
 
 

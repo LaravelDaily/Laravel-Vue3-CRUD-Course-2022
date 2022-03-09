@@ -20,6 +20,8 @@
         "tailwindcss": "^3.0.18"
     },
     "dependencies": {
+        "@casl/ability": "^5.4.3",
+        "@casl/vue": "^2.1.2",
         "laravel-vue-pagination": "^3.0.0",
         "vue": "^3.2.31",
         "vue-loader": "^17.0.0",
