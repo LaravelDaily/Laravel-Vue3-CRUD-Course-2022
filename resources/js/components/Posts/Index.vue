@@ -118,7 +118,7 @@
                 </tbody>
             </table>
 
-            <Pagination :data="posts" @pagination-change-page="page => getPosts(page, selectedCategory)" />
+            <Pagination :data="posts" :limit="3" @pagination-change-page="page => getPosts(page, selectedCategory)" class="mt-4" />
         </div>
     </div>
 </template>
