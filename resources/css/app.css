@@ -2,3 +2,40 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 @import 'sweetalert2/dist/sweetalert2.min.css';
+
+.pagination {
+    @apply flex flex-row
+}
+
+.pagination .page-item {
+    @apply text-blue-600 hover:bg-blue-500 hover:text-white
+}
+
+.pagination .page-item.pagination-page-nav {
+    @apply border-t border-b border-r
+}
+
+.pagination .page-item:first-child {
+    @apply rounded-l border-l
+}
+
+.pagination .pagination-prev-nav,
+.pagination .pagination-next-nav {
+    @apply border-t border-b border-r
+}
+
+.pagination .page-item:last-child {
+    @apply rounded-r
+}
+
+.pagination .page-item .page-link {
+    @apply inline-block px-3 py-2
+}
+
+.pagination .page-item.active {
+    @apply text-white bg-blue-500
+}
+
+.pagination .page-item.active .sr-only {
+    @apply hidden
+}
