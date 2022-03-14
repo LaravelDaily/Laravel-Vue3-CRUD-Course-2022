@@ -39,7 +39,7 @@ class AuthServiceProvider extends ServiceProvider
                     });
                 });
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             info('registerUserAccessToGates: Database not found or not yet migrated. Ignoring user permissions while booting app.');
         }
     }
