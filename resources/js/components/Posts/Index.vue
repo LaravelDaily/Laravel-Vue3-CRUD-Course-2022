@@ -201,7 +201,8 @@ export default {
                 search_global.value
             )
         })
-        watch(search_global, (current, previous) => {
+
+        watch(search_global, _.debounce((current, previous) => {
             getPosts(
                 1,
                 search_category.value,
@@ -210,7 +211,7 @@ export default {
                 search_content.value,
                 current
             )
-        })
+        }, 200))
 
         return {
             posts,
