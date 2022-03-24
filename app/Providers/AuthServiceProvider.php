@@ -36,7 +36,7 @@ class AuthServiceProvider extends ServiceProvider
                 Gate::define($permission, function ($user) use ($permission) {
                     return $user->roles()->whereHas('permissions', function ($q) use ($permission) {
                         $q->where('name', $permission);
-                    });
+                    })->count() > 0;
                 });
             }
         } catch (\Exception $e) {
