@@ -1,11 +1,14 @@
 <template>
-    <form @submit.prevent="storePost(post)">
+    <form @submit.prevent="submitForm">
         <!-- Title -->
         <div>
             <label for="post-title" class="block font-medium text-sm text-gray-700">
                 Title
             </label>
             <input v-model="post.title" id="post-title" type="text" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            <div class="text-red-600 mt-1">
+                {{ errors.title }}
+            </div>
             <div class="text-red-600 mt-1">
                 <div v-for="message in validationErrors?.title">
                     {{ message }}
@@ -20,6 +23,9 @@
             </label>
             <textarea v-model="post.content" id="post-content" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
             <div class="text-red-600 mt-1">
+                {{ errors.content }}
+            </div>
+            <div class="text-red-600 mt-1">
                 <div v-for="message in validationErrors?.content">
                     {{ message }}
                 </div>
@@ -32,6 +38,9 @@
                 Category
             </label>
             <select-2 v-model="post.category_id" :options="categories" :settings="{ width: '100%' }"></select-2>
+            <div class="text-red-600 mt-1">
+                {{ errors.category_id }}
+            </div>
             <div class="text-red-600 mt-1">
                 <div v-for="message in validationErrors?.category_id">
                     {{ message }}
@@ -63,25 +72,58 @@
 </template>
 
 <script>
-import {onMounted, reactive } from "vue";
+import { onMounted, reactive } from "vue";
 import useCategories from "../../composables/categories";
 import usePosts from "../../composables/posts";
+import { useForm, useField, defineRule } from "vee-validate";
+import { required, min } from "../../validation/rules"
+
+defineRule('required', required)
+defineRule('min', min);
 
 export default {
     setup() {
-        const post = reactive({
-            title: '',
-            content: '',
-            category_id: '',
-            thumbnail: ''
-        })
+        // Define a validation schema
+        const schema = {
+            title: 'required|min:5',
+            content: 'required|min:50',
+            category_id: 'required'
+        }
+
+        // Create a form context with the validation schema
+        const { validate, errors } = useForm({ validationSchema: schema })
+
+        // Define actual fields for validation
+        const { value: title } = useField('title', null, { initialValue: '' });
+        const { value: content } = useField('content', null, { initialValue: '' });
+        const { value: category_id } = useField('category_id', null, { initialValue: '', label: 'category' });
 
         const { categories, getCategories } = useCategories()
         const { storePost, validationErrors, isLoading } = usePosts()
+
+        const post = reactive({
+            title,
+            content,
+            category_id,
+            thumbnail: ''
+        })
+
+        function submitForm() {
+            validate().then(form => { if (form.valid) storePost(post) })
+        }
+
         onMounted(() => {
             getCategories()
         })
-        return { categories, post, storePost, validationErrors, isLoading }
+
+        return {
+            categories,
+            post,
+            validationErrors,
+            isLoading,
+            errors,
+            submitForm
+        }
     }
 }
 </script>

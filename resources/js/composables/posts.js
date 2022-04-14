@@ -1,9 +1,14 @@
-import {ref, inject} from 'vue'
-import {useRouter} from 'vue-router'
+import { ref, inject } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default function usePosts() {
     const posts = ref({})
-    const post = ref({})
+    const post = ref({
+        title: '',
+        content: '',
+        category_id: '',
+        thumbnail: ''
+    })
     const router = useRouter()
     const validationErrors = ref({})
     const isLoading = ref(false)
