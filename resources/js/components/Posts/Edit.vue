@@ -31,12 +31,7 @@
             <label for="post-category" class="block font-medium text-sm text-gray-700">
                 Category
             </label>
-            <select v-model="post.category_id" id="post-category" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                <option value="" selected>-- Choose category --</option>
-                <option v-for="category in categories" :value="category.id">
-                    {{ category.name }}
-                </option>
-            </select>
+            <select-2 v-model="post.category_id" :options="categories" :settings="{ width: '100%' }"></select-2>
             <div class="text-red-600 mt-1">
                 <div v-for="message in validationErrors?.category_id">
                     {{ message }}
