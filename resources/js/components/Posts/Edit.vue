@@ -122,6 +122,7 @@ export default {
 
         // https://vuejs.org/api/reactivity-core.html#watcheffect
         watchEffect(() => {
+            post.id = postData.value.id
             post.title = postData.value.title
             post.content = postData.value.content
             post.category_id = postData.value.category_id
